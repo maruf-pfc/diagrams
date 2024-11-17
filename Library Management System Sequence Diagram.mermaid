@@ -1,0 +1,34 @@
+sequenceDiagram
+    actor User
+    participant Librarian
+    participant System as Library System
+    participant DB as Database
+
+    User->>System: Fill registration form
+    System->>Librarian: Forward registration details
+    Librarian->>DB: Create user record
+    Librarian->>User: Issue library card with ID
+    
+    Note over User,DB: Book Request Process
+    User->>System: Request book
+    System->>DB: Check book availability
+    DB->>System: Return status
+    System->>User: Reserve book if available
+    
+    Note over User,DB: Book Management
+    User->>System: Renew book
+    alt Book renewed before due date
+        System->>DB: Update due date
+        DB->>User: Confirm new due date
+    else Book overdue
+        System->>DB: Calculate fine
+        DB->>User: Request fine payment
+    end
+    
+    User->>System: Submit feedback form
+    System->>DB: Store feedback
+    
+    Note over Librarian,DB: Database Management
+    Librarian->>DB: Add/Update book records
+    Librarian->>DB: Delete user records
+    Librarian->>DB: Update database
