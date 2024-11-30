@@ -1,0 +1,73 @@
+classDiagram
+    class Student {
+        -studentId: String
+        -name: String
+        -email: String
+        +enroll(Semester)
+        +registerCourse(Course)
+        +dropCourse(Course)
+        +withdrawCourse(Course)
+    }
+
+    class UndergraduateStudent {
+        -program: String
+    }
+
+    class PostgraduateStudent {
+        -researchTopic: String
+    }
+
+    class Semester {
+        -semesterId: String
+        -startDate: Date
+        -endDate: Date
+        +freeze()
+        +attend()
+    }
+
+    class Course {
+        -courseCode: String
+        -title: String
+        +register(Student)
+        +drop(Student)
+        +withdraw(Student)
+        +pass(Student)
+        +fail(Student)
+    }
+
+    class Registration {
+        -registrationId: String
+        -registrationDate: Date
+        +processRegistration()
+    }
+
+    class Payment {
+        -paymentId: String
+        -amount: Float
+        -paymentDate: Date
+        +processPayment()
+    }
+
+    class Requirement {
+        -requirementId: String
+        -description: String
+        +checkRequirement(Student)
+    }
+
+    class Transaction {
+        -transactionId: String
+        -transactionDate: Date
+        -description: String
+        +recordTransaction()
+    }
+
+    Student <|-- UndergraduateStudent
+    Student <|-- PostgraduateStudent
+    Student "1" -- "0..*" Registration
+    Student "1" -- "0..*" Payment
+    Semester "1" -- "0..*" Course
+    Semester "1" -- "0..*" Registration
+    Course "1" -- "0..*" Registration
+    Registration "1" -- "1" Payment
+    Registration "1" -- "0..*" Requirement
+    Payment "1" -- "1" Transaction
